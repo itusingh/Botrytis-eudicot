@@ -2,7 +2,7 @@
 ### Calculation of model-corrected means
 ### ANOVA result extraction for each gene
 ### DEG collection for infected vs Mock
-### AJM March 2025
+### Ritu 2025
 
 # install.packages("TMB")
 # install.packages("glmmTMB")
@@ -13,7 +13,7 @@ library(emmeans)
 library(car) #for glmmTMB anova
 
 #Note about packages:
-#The lsmeans package is being deprecated and further development will take place in its successor, emmeans.
+#The lsmeans package is being deprecated, and further development will take place in its successor, emmeans.
 #Users may use emmeans in almost exactly the same way as lsmeans, but a few function names and internal details are changed.
 
 args <- commandArgs(trailingOnly = TRUE)
