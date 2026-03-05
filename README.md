@@ -56,7 +56,7 @@ qc/fastqc_out directory containing FastQC reports
 MultiQC summary report
 
 Step 4. Dual alignment to host and Botrytis cinerea genomes
-The script alignment.sh aligns trimmed paired reads to both the host genome and the Botrytis cinerea genome.
+The script alignment.sh aligns trimmed paired reads to both the host genome and the Botrytis cinerea genome. Also convert sam file to bam file using samtool
 
 Requirements before running
 HISAT2 indices must be generated for each reference genome.
@@ -76,15 +76,26 @@ Alignment summary logs
 
 Step 5. Normalization of read counts
 The script Host_normalization.R processes the read count data and performs normalization. Needs to be adjusted per dataset.
-Also make sure to do normalization of host and Bcin separately
 
+Functions
+Clean read count tables
+Perform TMM normalization
+Calculate counts per million values
+Host and Botrytis cinerea counts should be normalized separately.
+Input
+Gene level count matrices generated from aligned BAM files.
 
-Step 3a: model_means.R - Run Generalized Linear Mixed Model with Negative Binomial on host reads
-This script inputs counts, sample IDs, and batch information for one host species and outputs for each gene:
+Step 6. Differential expression modeling
+The script model_means.R performs statistical modeling of host gene expression using a generalized linear mixed model with a negative binomial distribution.
 
-anova results and variances for each model term
-emmeans and standard errors
-DEG data for the infected term, including log2FCs and p values
+Inputs
+counts.csv containing gene level counts
+sampleIDs.csv containing sample metadata
+batch.csv containing batch information
+
+Outputs per gene
+ANOVA results and variance components for each model term
+Estimated marginal means and standard errors
+Differential expression results for the infection term including log2 fold change and p values
 Run your sbatch command like this (you don't need to hard-code input files into the script)
-
 sbatch sbatch_modelmeans.sh /path/to/counts.csv /path/to/sampleIDs.csv /path/to/batch.csv /path/to/output_dir/
