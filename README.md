@@ -1,12 +1,13 @@
 
 Project
-"A multi-plant transcriptomic atlas reveals conserved and lineage-specific defense architectures in response to Botrytis cinerea manuscript", full analysis code
+Multi- eudicot plants transcriptomic atlas of Botrytis cinerea infection.
 
-RNA seq preprocessing and dual alignment pipeline for host and Botrytis cinerea
-This repository contains SLURM-based scripts to perform quality control, adapter trimming, and alignment of paired end RNA seq data.
+Goal: Compare host and Botrytis cinerea responses across ten plant species. Identify conserved and lineage specific defense programs. Quantify host and pathogen expression during infection.
+
+Overview: This repository contains a SLURM-based pipeline for preprocessing co-transcriptome data and performing dual alignment to host plant genomes and the Botrytis cinerea genome. The workflow includes raw data retrieval, quality control, adapter trimming, alignment, normalization, and statistical modeling of infection-responsive gene expression.
 
 Raw data source
-All raw sequencing data are publicly available in NCBI Sequence Read Archive.
+All raw sequencing data are publicly available in the NCBI Sequence Read Archive.
 BioProject ID: PRJNA1217477
 Users can download raw fastq files directly from NCBI SRA.
 
@@ -21,29 +22,23 @@ Trimmomatic
 HISAT2 version 2.2.1
 samtools
 wget
-conda or environment modules for tool management
 
-Recommended
-Install tools through conda or load via cluster modules to ensure version control.
+Tool installation: Tools can be installed using conda environments or loaded through cluster environment modules to maintain consistent software versions.
 
 Input files:
-file_list.txt
-A plain text file containing one SRA Run (per species) accession per line.
+1. file_list.txt: A plain text file containing one SRA Run (per species) accession per line.
+2. adapters.fa: Adapter sequences used by Trimmomatic.
+3. raw fasta file from ncbi SRA
+   
+Pipeline workflow
+Step 0. Setup
+Prepare the working environment, install required software, and prepare input files, including file_list.txt and adapters.fa.
 
-adapters.fa
-Adapter sequences used by Trimmomatic.
+Step 1. Download raw data and perform raw quality control
+The script raw_QC.sh performs initial quality control. Run sbatch raw_QC.sh
 
-Step 1. Download raw data and perform QC.sh
-
-Step 2. Using the same raw data perform trimming
-
-The script trim.sh performs the following steps for each Run ID listed in file_list.txt.
-
-Download paired fastq files from SRA
-Decompress fastq.gz files
-Run Trimmomatic PE mode
-Generate trimmed paired and unpaired fastq files
-
+Step 2. Adapter trimming and preprocessing
+The script trim.sh processes each Run ID listed in file_list.txt and performs adapter and quality trimming using Trimmomatic in paired end mode and generate paired and unpaired trimmed reads
 To run: sbatch trim.sh
 
 Output
