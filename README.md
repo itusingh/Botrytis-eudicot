@@ -38,7 +38,7 @@ Step 1. Download raw data and perform raw quality control
 The script raw_QC.sh performs initial quality control. Run sbatch raw_QC.sh
 
 Step 2. Adapter trimming and preprocessing
-The script trim.sh processes each Run ID listed in file_list.txt and performs adapter and quality trimming using Trimmomatic in paired end mode and generate paired and unpaired trimmed reads
+The script trim.sh processes each Run ID listed in file_list.txt and performs adapter and quality trimming using Trimmomatic in paired-end mode, and generate paired and unpaired trimmed reads. It also contains wget command through which you can download files directly from SRA. upadate the path as per your path
 To run: sbatch trim.sh
 
 Output
@@ -47,49 +47,35 @@ RunID_R2_trimmed_paired.fastq
 RunID_R1_trimmed_unpaired.fastq
 RunID_R2_trimmed_unpaired.fastq
 
-Step 3. Quality control
+Step 3. Quality control of trimmed reads
+The script QC_pairedfastq.sh evaluates the quality of trimmed paired reads and summarizes results.
+Run: sbatch QC_pairedfastq.sh
 
-The script QC_pairedfastq.sh performs FastQC on trimmed paired reads and summarizes results using MultiQC.
-
-To run
-
-sbatch QC_pairedfastq.sh
-
-Output
-
+Outputs
 qc/fastqc_out directory containing FastQC reports
 MultiQC summary report
 
-Step 3. Alignment to host and Botrytis cinerea
-
-The script alignment.sh performs dual alignment of trimmed paired reads.
+Step 4. Dual alignment to host and Botrytis cinerea genomes
+The script alignment.sh aligns trimmed paired reads to both the host genome and the Botrytis cinerea genome.
 
 Requirements before running
+HISAT2 indices must be generated for each reference genome.
 
-HISAT2 indices must be built for
-Host reference genome
-Botrytis cinerea reference genome
-
-To build indices
-
+Build indices
 hisat2-build host_genome.fa HostIndexPrefix
 hisat2-build botrytis_genome.fa BotrytisIndexPrefix
 
 Edit alignment.sh to specify correct index prefixes before running.
 
-To run
-
-sbatch alignment.sh
+Run: sbatch alignment.sh
 
 Output per sample
-
 RunID_Host.bam
 RunID_Bcin.bam
 Alignment summary logs
 
-
-Step 4: Host_normalization.R
-This script cleans up the readcount data, performs TMM normalization, and calculates cpm for each organism within each sample. Needs to be adjusted per dataset.
+Step 5. Normalization of read counts
+The script Host_normalization.R processes the read count data and performs normalization. Needs to be adjusted per dataset.
 Also make sure to do normalization of host and Bcin separately
 
 
