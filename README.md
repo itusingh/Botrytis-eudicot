@@ -74,7 +74,7 @@ RunID_Bcin.bam
 Alignment summary logs
 
 Step 5. Read quantification
-The script Bamtoreadcount.R converts aligned BAM files into transcript level read count tables using the featureCounts function from the Rsubread package. Reads are assigned to transcripts using genome annotation files in GTF or GFF format. Each BAM file is processed individually to generate a per sample count table. These tables are then merged to produce a combined count matrix for downstream analyses.
+The script Bamtoreadcount.R converts aligned BAM files into transcript-level read count tables using the featureCounts function from the Rsubread package. Reads are assigned to transcripts using genome annotation files in GTF or GFF format. Each BAM file is processed individually to generate a per-sample count table. These tables are then merged to produce a combined count matrix for downstream analyses. We have collapsed transcript counts to the gene level prior to normalization and differential expression analysis.
 
 Input
 Aligned BAM files generated during the alignment step
